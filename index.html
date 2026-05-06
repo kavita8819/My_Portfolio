@@ -1,25 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Profile</title>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fdfbfb, #ebedee);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #ff6b81;
+}
+
+.text {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.7;
+    min-height: 120px;
+    margin-top: 15px;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.next-btn, .music-btn {
+    background: #ff6b81;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 5px;
+}
+</style>
 </head>
+
 <body>
-    <h1>Welcome to My Portfolio</h1>
 
-    <h2>About Me</h2>
-    <p>Name: Kavita</p>
-    <p>Role: DevOps Learner</p>
+<div class="container">
+    <h1>💌 A Little Note</h1>
 
-    <h2>Projects</h2>
-    <ul>
-        <li>Ansible Automation</li>
-        <li>Docker Setup</li>
-    </ul>
+    <div id="text" class="text"></div>
 
-    <h2>Hobbies</h2>
-    <ul>
-        <li>Learning scripting</li>
-        <li>Exploring DevOps tools</li>
-    </ul>
+    <div class="controls">
+        <button class="music-btn" onclick="playMusic()">🎶 Music</button>
+        <button id="nextBtn" class="next-btn" onclick="nextSlide()">Next ➡️</button>
+    </div>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let messages = [
+"I was just thinking about US and felt like sharing this with you ❤️",
+"It’s been a year since we got married, and having you as my partner still feels like a dream come true.",
+"I am lucky to have YOU.",
+"I enjoy the little things—going for evening walks, cooking for us, taking care of you, our discussions on investments, shopping for US, those late-night talks, decorating our home. Even the simple time we spend together in the kitchen means so much to me… it’s truly priceless.",
+"It’s these small, everyday moments with you that bring me the most happiness.",
+"I just want you to know how grateful I am for you…💛",
+"THANK YOU! ❤️",
+"I was just thinking about US and felt like sharing this with you ❤️\n\nIt’s been a year since we got married, and having you as my partner still feels like a dream come true.\n\nI am lucky to have YOU.\n\nI enjoy the little things—going for evening walks, cooking for us, taking care of you, our discussions on investments, shopping for US, those late-night talks, decorating our home. Even the simple time we spend together in the kitchen means so much to me… it’s truly priceless.\n\nIt’s these small, everyday moments with you that bring me the most happiness.\n\nI just want you to know how grateful I am for you…💛\n\nTHANK YOU! ❤️"
+];
+
+let index = 0;
+let typingSpeed = 55;
+let typingInterval;
+let isTyping = false;
+
+function typeText(text) {
+    let i = 0;
+    let display = document.getElementById("text");
+    display.innerHTML = "";
+
+    if (typingInterval) clearInterval(typingInterval);
+
+    isTyping = true;
+
+    typingInterval = setInterval(() => {
+        if (i < text.length) {
+            display.innerHTML += text.charAt(i);
+            i++;
+        } else {
+            clearInterval(typingInterval);
+            isTyping = false;
+        }
+    }, typingSpeed);
+}
+
+function nextSlide() {
+    if (isTyping) return;
+
+    // if already last slide, do nothing
+    if (index === messages.length - 1) return;
+
+    index++;
+
+    let display = document.getElementById("text");
+
+    // LAST SLIDE → show instantly
+    if (index === messages.length - 1) {
+        if (typingInterval) clearInterval(typingInterval);
+        isTyping = false;
+        display.innerHTML = messages[index];
+
+        let btn = document.getElementById("nextBtn");
+        btn.disabled = true;
+        btn.innerText = "End 💛";
+        btn.style.opacity = "0.6";
+
+    } else {
+        setTimeout(() => {
+            typeText(messages[index]);
+        }, 300);
+    }
+}
+
+function playMusic() {
+    document.getElementById("bgMusic").play();
+}
+
+window.onload = function() {
+    typeText(messages[index]);
+};
+</script>
+
 </body>
 </html>
+
