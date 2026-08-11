@@ -1,151 +1,546 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <title>For You ❤️</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #fdfbfb, #ebedee);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+
+/* =========================
+   THEME VARIABLES
+========================= */
+
+:root {
+    --body-bg: linear-gradient(135deg, #fdfbfb, #ebedee);
+    --container-bg: #ffffff;
+    --text-color: #444444;
+    --heading-color: #ff6b81;
+    --button-bg: #ff6b81;
+    --button-text: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --toggle-bg: #f1f1f1;
+    --toggle-text: #333333;
 }
+
+/* DARK MODE */
+
+body.dark-mode {
+    --body-bg: linear-gradient(135deg, #141414, #252525);
+    --container-bg: #2b2b2b;
+    --text-color: #eeeeee;
+    --heading-color: #ff8fa3;
+    --button-bg: #ff6b81;
+    --button-text: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --toggle-bg: #444444;
+    --toggle-text: #ffffff;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+
+    margin: 0;
+
+    font-family: 'Poppins', sans-serif;
+
+    background: var(--body-bg);
+
+    color: var(--text-color);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    height: 100vh;
+
+    transition:
+        background 0.4s ease,
+        color 0.4s ease;
+
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container {
+
     width: 90%;
+
     max-width: 600px;
-    background: white;
+
+    background: var(--container-bg);
+
     padding: 30px;
+
     border-radius: 16px;
+
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+    box-shadow: 0 10px 30px var(--shadow);
+
+    position: relative;
+
+    transition:
+        background 0.4s ease,
+        box-shadow 0.4s ease;
+
 }
+
+
+/* =========================
+   THEME TOGGLE
+========================= */
+
+.theme-toggle {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 15px;
+
+    background: var(--toggle-bg);
+
+    color: var(--toggle-text);
+
+    border: none;
+
+    padding: 8px 12px;
+
+    border-radius: 20px;
+
+    cursor: pointer;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+
+}
+
+.theme-toggle:hover {
+
+    transform: scale(1.05);
+
+}
+
+
+/* =========================
+   HEADING
+========================= */
 
 h1 {
-    color: #ff6b81;
+
+    color: var(--heading-color);
+
+    transition: color 0.4s ease;
+
 }
+
+
+/* =========================
+   MESSAGE TEXT
+========================= */
 
 .text {
+
     font-size: 16px;
-    color: #444;
+
+    color: var(--text-color);
+
     line-height: 1.7;
+
     min-height: 120px;
+
     margin-top: 15px;
+
+    transition: color 0.4s ease;
+
 }
+
+
+/* =========================
+   CONTROLS
+========================= */
 
 .controls {
+
     margin-top: 20px;
+
 }
 
-.next-btn, .music-btn {
-    background: #ff6b81;
-    color: white;
+
+/* =========================
+   BUTTONS
+========================= */
+
+.next-btn,
+.music-btn {
+
+    background: var(--button-bg);
+
+    color: var(--button-text);
+
     border: none;
+
     padding: 10px 16px;
+
     border-radius: 20px;
+
     cursor: pointer;
+
     margin: 5px;
+
+    font-family: 'Poppins', sans-serif;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+
 }
+
+
+.next-btn:hover,
+.music-btn:hover {
+
+    transform: scale(1.05);
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 500px) {
+
+    .container {
+
+        padding: 25px 20px;
+
+    }
+
+    h1 {
+
+        font-size: 22px;
+
+    }
+
+    .text {
+
+        font-size: 15px;
+
+    }
+
+    .theme-toggle {
+
+        font-size: 12px;
+
+        padding: 7px 10px;
+
+    }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
+
+    <!-- DARK / LIGHT MODE BUTTON -->
+
+    <button
+        id="themeToggle"
+        class="theme-toggle"
+        onclick="toggleTheme()">
+        🌙 Dark Mode
+    </button>
+
+
     <h1>💌 Lovely Message</h1>
+
 
     <div id="text" class="text"></div>
 
+
     <div class="controls">
-        <button class="music-btn" onclick="playMusic()">🎶 Music</button>
-        <button id="nextBtn" class="next-btn" onclick="nextSlide()">Next ➡️</button>
+
+        <button
+            class="music-btn"
+            onclick="playMusic()">
+            🎶 Music
+        </button>
+
+
+        <button
+            id="nextBtn"
+            class="next-btn"
+            onclick="nextSlide()">
+            Next ➡️
+        </button>
+
     </div>
+
 </div>
 
+
 <audio id="bgMusic" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+
+    <source
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        type="audio/mpeg">
+
 </audio>
 
+
 <script>
+
+
+/* =========================
+   MESSAGES
+========================= */
+
 let messages = [
-"I was just thinking about US and felt like sharing this with you ❤️",
-"It’s been a year since we got married, and having you as my partner still feels like a dream come true.",
-"I am lucky to have YOU.",
-"I enjoy the little things—going for evening walks, cooking for us, taking care of you, our discussions on investments, shopping for US, those late-night talks, decorating our home. Even the simple time we spend together in the kitchen means so much to me… it’s truly priceless.",
-"It’s these small, everyday moments with you that bring me the most happiness.",
-"I just want you to know how grateful I am for you…💛",
-"THANK YOU! ❤️",
+
+    "I was just thinking about US and felt like sharing this with you ❤️",
+
+    "It’s been a year since we got married, and having you as my partner still feels like a dream come true.",
+
+    "I am lucky to have YOU.",
+
+    "I enjoy the little things—going for evening walks, cooking for us, taking care of you, our discussions on investments, shopping for US, those late-night talks, decorating our home. Even the simple time we spend together in the kitchen means so much to me… it’s truly priceless.",
+
+    "It’s these small, everyday moments with you that bring me the most happiness.",
+
+    "I just want you to know how grateful I am for you…💛",
+
+    "THANK YOU! ❤️"
+
 ];
 
+
 let index = 0;
+
 let typingSpeed = 55;
+
 let typingInterval;
+
 let isTyping = false;
 
+
+/* =========================
+   TYPE TEXT
+========================= */
+
 function typeText(text) {
+
     let i = 0;
+
     let display = document.getElementById("text");
+
     display.innerHTML = "";
 
-    if (typingInterval) clearInterval(typingInterval);
+
+    if (typingInterval)
+        clearInterval(typingInterval);
+
 
     isTyping = true;
 
+
     typingInterval = setInterval(() => {
+
         if (i < text.length) {
+
             display.innerHTML += text.charAt(i);
+
             i++;
+
         } else {
+
             clearInterval(typingInterval);
+
             isTyping = false;
+
         }
+
     }, typingSpeed);
+
 }
 
-function nextSlide() {
-    if (isTyping) return;
 
-    // if already last slide, do nothing
-    if (index === messages.length - 1) return;
+/* =========================
+   NEXT SLIDE
+========================= */
+
+function nextSlide() {
+
+    if (isTyping)
+        return;
+
+
+    // If already on last slide, do nothing
+
+    if (index === messages.length - 1)
+        return;
+
 
     index++;
 
+
     let display = document.getElementById("text");
 
-    // LAST SLIDE → show instantly
+
+    // LAST SLIDE → SHOW INSTANTLY
+
     if (index === messages.length - 1) {
-        if (typingInterval) clearInterval(typingInterval);
+
+        if (typingInterval)
+            clearInterval(typingInterval);
+
         isTyping = false;
+
         display.innerHTML = messages[index];
 
+
         let btn = document.getElementById("nextBtn");
+
         btn.disabled = true;
+
         btn.innerText = "End 💛";
+
         btn.style.opacity = "0.6";
 
-    } else {
-        setTimeout(() => {
-            typeText(messages[index]);
-        }, 300);
     }
+
+    else {
+
+        setTimeout(() => {
+
+            typeText(messages[index]);
+
+        }, 300);
+
+    }
+
 }
+
+
+/* =========================
+   MUSIC
+========================= */
 
 function playMusic() {
-    document.getElementById("bgMusic").play();
+
+    document
+        .getElementById("bgMusic")
+        .play();
+
 }
 
+
+/* =========================
+   DARK / LIGHT MODE
+========================= */
+
+function toggleTheme() {
+
+    const body = document.body;
+
+    const themeButton =
+        document.getElementById("themeToggle");
+
+
+    body.classList.toggle("dark-mode");
+
+
+    if (body.classList.contains("dark-mode")) {
+
+        themeButton.innerHTML = "☀️ Light Mode";
+
+        localStorage.setItem("theme", "dark");
+
+    }
+
+    else {
+
+        themeButton.innerHTML = "🌙 Dark Mode";
+
+        localStorage.setItem("theme", "light");
+
+    }
+
+}
+
+
+/* =========================
+   LOAD SAVED THEME
+========================= */
+
+function loadTheme() {
+
+    const savedTheme =
+        localStorage.getItem("theme");
+
+    const themeButton =
+        document.getElementById("themeToggle");
+
+
+    if (savedTheme === "dark") {
+
+        document.body.classList.add("dark-mode");
+
+        themeButton.innerHTML = "☀️ Light Mode";
+
+    }
+
+    else {
+
+        themeButton.innerHTML = "🌙 Dark Mode";
+
+    }
+
+}
+
+
+/* =========================
+   PAGE LOAD
+========================= */
+
 window.onload = function() {
+
+    loadTheme();
+
     typeText(messages[index]);
+
 };
+
 </script>
 
-</body>
-</html>
 
+</body>
+
+</html>
